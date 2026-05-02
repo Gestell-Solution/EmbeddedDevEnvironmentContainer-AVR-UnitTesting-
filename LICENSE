@@ -1,21 +1,33 @@
-MIT License
+Gestell Freeware & Proprietary License
+Copyright (c) 2026 Gestell Company - All Rights Reserved.
 
-Copyright (c) 2026 modiaa
+This software (the compiled executable files) is provided by Gestell Company under the following conditions:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. PERSONAL & EDUCATIONAL USE: 
+The compiled executable files (.exe) provided in this repository are completely free to download, install, and use for personal, educational, and non-commercial purposes.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. COMMERCIAL & PROFESSIONAL USE:
+Any use of this software within a commercial, corporate, or professional environment strictly requires explicit prior consent from Gestell Company. For commercial usage inquiries, please contact:
+- Email: info.gestell@gmail.com
+- LinkedIn: https://www.linkedin.com/company/gestell-company
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+3. CLOSED SOURCE & RESTRICTIONS:
+The source code of this software is proprietary and closed-source. You may not reverse engineer, decompile, disassemble, modify, or attempt to discover the source code of the provided executables.
+
+4. REDISTRIBUTION:
+You may not redistribute, sub-license, or sell this software. 
+
+5. DISCLAIMER OF WARRANTY:
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL GESTELL COMPANY BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
+
+6. THIRD-PARTY SOFTWARE:
+This software automates the downloading and configuration of third-party tools and SDKs (such as Espressif SDKs, MSYS32, and Git). These third-party components are not owned by Gestell Company and are subject to their own respective licenses. Gestell Company assumes no liability for the use, performance, or legality of these third-party tools.
+
+7. SUPPORT AND UPDATES:
+While Gestell Company may offer technical support or updates at its discretion, it is under no formal obligation to provide maintenance, bug fixes, or future updates to this software unless governed by a separate commercial agreement.
+
+8. FEEDBACK:
+Any feedback, suggestions, or bug reports provided to Gestell Company regarding this software may be used freely by the company to improve future releases, without any obligation or compensation to the provider.
+
+9. TERMINATION:
+This license is effective until terminated. Gestell Company reserves the right to terminate your license to use the software immediately and without notice if you fail to comply with any of the terms outlined in this document. Upon termination, you must destroy all copies of the software.

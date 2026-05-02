@@ -90,7 +90,7 @@ def run_project():
 
     try:
         # ==========================================
-        # 3. Extract and Categorize
+        # 3. Extract and Categorize (UPDATED)
         # ==========================================
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             zip_ref.extractall(extract_dir)
@@ -99,24 +99,37 @@ def run_project():
         include_dirs = set()
 
         for root, dirs, files in os.walk(extract_dir):
-            path_parts = root.lower().split(os.sep)
+            # Convert path to lowercase to safely match Src/, src/, Test/, etc.
+            path_parts = [p.lower() for p in root.split(os.sep)]
+            
             for file in files:
                 file_path = os.path.join(root, file)
+                
+                # A. Process files inside the 'src' directory
                 if 'src' in path_parts:
-                    if file.endswith('.c'): src_files.append(file_path)
-                    elif file.endswith('.h'): include_dirs.add(root)
-                elif 'unity' in path_parts:
-                    if file.endswith('.c'): unity_files.append(file_path)
-                    elif file.endswith('.h'): include_dirs.add(root)
+                    if file.endswith('.c'): 
+                        src_files.append(file_path)
+                    elif file.endswith('.h'): 
+                        include_dirs.add(root)
+                        
+                # B. Process files inside the 'test' directory
                 elif 'test' in path_parts:
-                    if file.lower().startswith('test_') and file.endswith('.c'):
-                        test_files.append(file_path)
+                    # Look for unity specifically nested inside test/
+                    if 'unity' in path_parts:
+                        if file.endswith('.c'): 
+                            unity_files.append(file_path)
+                        elif file.endswith('.h'): 
+                            include_dirs.add(root)
+                    # Otherwise, it is standard test code
+                    else:
+                        if file.lower().startswith('test_') and file.endswith('.c'):
+                            test_files.append(file_path)
+                        elif file.endswith('.h'):
+                            include_dirs.add(root) # Ensure test header folders are included
 
         include_flags = [f"-I{d}" for d in include_dirs]
         test_src_files = [f for f in src_files if not f.lower().endswith('main.c')]
         
-        # ---> DEFAULT FLAGS ADDED HERE <---
-        # We enforce -g, -Wall, -Wextra, and -Os automatically for every build
         base_gcc_flags = ["-g", "-Wall", "-Wextra", "-Os"] + extra_flags + include_flags
         
         main_build_success = True
@@ -130,7 +143,6 @@ def run_project():
                 map_path = os.path.join(results_dir, "main.map")
                 hex_path = os.path.join(results_dir, "main.hex")
 
-                # -Os is removed from here since it is now in base_gcc_flags
                 avr_specific_flags = [f"-mmcu={mcu}", f"-DF_CPU={cpu_freq}UL"]
                 avr_cmd = ["avr-gcc"] + base_gcc_flags + avr_specific_flags + src_files + ["-o", elf_path, f"-Wl,-Map={map_path}"]
                 

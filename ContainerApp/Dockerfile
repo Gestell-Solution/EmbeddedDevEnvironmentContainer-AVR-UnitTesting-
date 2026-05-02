@@ -27,12 +27,11 @@ RUN ./venv/bin/pip install flask
 
 
 COPY app.py .
-COPY UsedByDockerNotYou.sh .
-RUN chmod +x  UsedByDockerNotYou.sh
+COPY DockerRelated.sh .
+RUN chmod +x  DockerRelated.sh
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-
 EXPOSE 80
 
-CMD ["./UsedByDockerNotYou.sh"]
+CMD ["./DockerRelated.sh"]

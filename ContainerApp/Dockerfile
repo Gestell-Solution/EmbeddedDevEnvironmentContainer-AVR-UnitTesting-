@@ -27,12 +27,12 @@ RUN ./venv/bin/pip install flask
 
 
 COPY app.py .
-COPY Runner.sh .
-RUN chmod +x  Runner.sh
+COPY UsedByDockerNotYou.sh .
+RUN chmod +x  UsedByDockerNotYou.sh
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
 
 EXPOSE 80
 
-CMD ["./Runner.sh"]
+CMD ["./UsedByDockerNotYou.sh"]

@@ -28,7 +28,7 @@ You may not redistribute, sub-license, or sell this Software or any of its inter
 THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL GESTELL COMPANY BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
 
 6. Third-Party Software
-This Software automates the downloading, configuration, and execution of third-party tools and SDKs (such as GCC, AVR-GCC, Nginx, Docker base images, Espressif SDKs, MSYS32, Unity Test Framework, and Git). These third-party components are not owned by Gestell Company and are subject to their own respective open-source or proprietary licenses. Gestell Company assumes no liability for the use, performance, or legality of these third-party tools.
+This Software automates the downloading, configuration, and execution of third-party tools and SDKs (such as GCC, AVR-GCC, Nginx, Docker base images, Unity Test Framework, and Git). These third-party components are not owned by Gestell Company and are subject to their own respective open-source or proprietary licenses. Gestell Company assumes no liability for the use, performance, or legality of these third-party tools.
 
 7. Support, Updates, and Feedback
 - Support: While Gestell Company may offer technical support or updates at its discretion, it is under no formal obligation to provide maintenance, bug fixes, or future updates to this Software unless governed by a separate commercial agreement.

@@ -2,14 +2,15 @@
 # Author:       MohammedDiaa (mohammeddiaato@gmail.com)
 # Company:      Gestell - Professional Embedded Solutions
 # ==================================================================================================================
-$ProjectName = "Example of AVR"
+$ProjectName = "Firmware"
 
 Write-Host "Creating $ProjectName structure..." -ForegroundColor Cyan
 
 # 1. Create Directories
 New-Item -Path $ProjectName -ItemType Directory -Force | Out-Null
 Set-Location $ProjectName
-New-Item -Path "src", "test", "unity" -ItemType Directory -Force | Out-Null
+New-Item -Path "src", "test" -ItemType Directory -Force | Out-Null
+New-Item -Path "test/unity" -ItemType Directory -Force | Out-Null
 
 # 2. Generate Source Files (src/)
 $BlinkyH = @"
@@ -46,7 +47,7 @@ int main(void) {
 "@
 Set-Content -Path "src/main.c" -Value $MainC
 
-# 3. Generate Mock Unity Framework (unity/)
+# 3. Generate Mock Unity Framework (test/unity/)
 # (This is a heavily stripped-down mock just to make GCC compile successfully)
 $UnityH = @"
 #ifndef UNITY_H
@@ -60,7 +61,7 @@ void UnityAssertEqualNumber(int expected, int actual, int line);
 
 #endif
 "@
-Set-Content -Path "unity/unity.h" -Value $UnityH
+Set-Content -Path "test/unity/unity.h" -Value $UnityH
 
 $UnityC = @"
 #include "unity.h"
@@ -74,7 +75,7 @@ void UnityAssertEqualNumber(int expected, int actual, int line) {
     }
 }
 "@
-Set-Content -Path "unity/unity.c" -Value $UnityC
+Set-Content -Path "test/unity/unity.c" -Value $UnityC
 
 # 4. Generate Unit Test (test/)
 $TestBlinkyC = @"

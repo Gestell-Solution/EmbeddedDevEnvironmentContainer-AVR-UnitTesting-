@@ -27,11 +27,11 @@ if [ ! -f "$CONFIG_FILE" ]; then
         BUILD_TYPE=$(echo "$BUILD_TYPE" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')
     done
 
-    MCU="atmega328p"
+    MCU="atmega128"
     CPU_FREQ="16000000"
     
     if [ "$BUILD_TYPE" == "avr" ]; then
-        read -p "Enter MCU (default: atmega328p): " INPUT_MCU
+        read -p "Enter MCU (default: atmega128): " INPUT_MCU
         if [ -n "$(echo "$INPUT_MCU" | tr -d '[:space:]')" ]; then
             MCU=$(echo "$INPUT_MCU" | tr -d '[:space:]')
         fi

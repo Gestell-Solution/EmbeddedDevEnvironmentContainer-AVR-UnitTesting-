@@ -41,7 +41,7 @@ def run_project():
             return f"Error reading config JSON: {str(e)}", 400
 
     build_type = config_data.get('build_type', 'c').lower()
-    mcu = config_data.get('mcu', 'atmega328p')
+    mcu = config_data.get('mcu', 'atmega128')
     cpu_freq = config_data.get('cpu_freq', '16000000')
     extra_flags_str = config_data.get('extra_flags', '')
     extra_flags = shlex.split(extra_flags_str)

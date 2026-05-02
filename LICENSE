@@ -1,33 +1,38 @@
 Gestell Freeware & Proprietary License
+
 Copyright (c) 2026 Gestell Company - All Rights Reserved.
 
-This software (the compiled executable files) is provided by Gestell Company under the following conditions:
+Definitions & Software Scope
+For the purposes of this agreement, "The Software" refers to the AVR & C Containerized Build Factory and all of its internal components, scripts, and architectures. This explicitly includes, but is not limited to:
+- The Client-Side Deployment Architecture: Scripts responsible for packaging local firmware source code (e.g., CompilingYourProject.sh, CompilingYourProject.ps1) and configuration generators.
+- The Server-Side Build Engine (ContainerApp): The isolated Docker container environment, including the Flask application logic (app.py), the Nginx reverse proxy configurations (nginx.conf), container orchestration scripts (DockerRelated.sh), and the unified compilation pipelines for standard C, AVR-GCC, and Unity unit testing.
 
-1. PERSONAL & EDUCATIONAL USE: 
-The compiled executable files (.exe) provided in this repository are completely free to download, install, and use for personal, educational, and non-commercial purposes.
+This Software (the compiled executable files, scripts, and container configurations) is provided by Gestell Company under the following conditions:
 
-2. COMMERCIAL & PROFESSIONAL USE:
-Any use of this software within a commercial, corporate, or professional environment strictly requires explicit prior consent from Gestell Company. For commercial usage inquiries, please contact:
+1. Personal & Educational Use
+The Software provided in this repository is completely free to download, install, and use for personal, educational, and non-commercial purposes.
+
+2. Commercial & Professional Use
+Any use of this Software within a commercial, corporate, or professional environment strictly requires explicit prior consent from Gestell Company.
+For commercial usage inquiries, please contact:
 - Email: info.gestell@gmail.com
 - LinkedIn: https://www.linkedin.com/company/gestell-company
 
-3. CLOSED SOURCE & RESTRICTIONS:
-The source code of this software is proprietary and closed-source. You may not reverse engineer, decompile, disassemble, modify, or attempt to discover the source code of the provided executables.
+3. Closed Source & Restrictions
+The underlying proprietary logic of this Software is closed-source. You may not reverse engineer, decompile, disassemble, modify, or attempt to discover the source code of the provided executables or core build engine logic.
 
-4. REDISTRIBUTION:
-You may not redistribute, sub-license, or sell this software. 
+4. Redistribution
+You may not redistribute, sub-license, or sell this Software or any of its internal deployment tools.
 
-5. DISCLAIMER OF WARRANTY:
+5. Disclaimer of Warranty & Liability
 THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL GESTELL COMPANY BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
 
-6. THIRD-PARTY SOFTWARE:
-This software automates the downloading and configuration of third-party tools and SDKs (such as Espressif SDKs, MSYS32, and Git). These third-party components are not owned by Gestell Company and are subject to their own respective licenses. Gestell Company assumes no liability for the use, performance, or legality of these third-party tools.
+6. Third-Party Software
+This Software automates the downloading, configuration, and execution of third-party tools and SDKs (such as GCC, AVR-GCC, Nginx, Docker base images, Espressif SDKs, MSYS32, Unity Test Framework, and Git). These third-party components are not owned by Gestell Company and are subject to their own respective open-source or proprietary licenses. Gestell Company assumes no liability for the use, performance, or legality of these third-party tools.
 
-7. SUPPORT AND UPDATES:
-While Gestell Company may offer technical support or updates at its discretion, it is under no formal obligation to provide maintenance, bug fixes, or future updates to this software unless governed by a separate commercial agreement.
+7. Support, Updates, and Feedback
+- Support: While Gestell Company may offer technical support or updates at its discretion, it is under no formal obligation to provide maintenance, bug fixes, or future updates to this Software unless governed by a separate commercial agreement.
+- Feedback: Any feedback, suggestions, or bug reports provided to Gestell Company regarding this Software may be used freely by the company to improve future releases, without any obligation or compensation to the provider.
 
-8. FEEDBACK:
-Any feedback, suggestions, or bug reports provided to Gestell Company regarding this software may be used freely by the company to improve future releases, without any obligation or compensation to the provider.
-
-9. TERMINATION:
-This license is effective until terminated. Gestell Company reserves the right to terminate your license to use the software immediately and without notice if you fail to comply with any of the terms outlined in this document. Upon termination, you must destroy all copies of the software.
+8. Termination
+This license is effective until terminated. Gestell Company reserves the right to terminate your license to use the Software immediately and without notice if you fail to comply with any of the terms outlined in this document. Upon termination, you must destroy all copies of the Software, including any downloaded Docker images and deployment scripts.

@@ -12,7 +12,7 @@ _Developed by Gestell Company - Professional Embedded Solutions_
 
 <br/>
 
-![Status](https://img.shields.io/badge/Status-Draft-red) ![Category](https://img.shields.io/badge/Category-Architecture-blue) ![Version](https://img.shields.io/badge/Version-0.1-lightgrey) ![License](https://img.shields.io/badge/License-Gestell-orange) ![Type](https://img.shields.io/badge/Type-System__Block__Diagram-brightgreen)
+![Status](https://img.shields.io/badge/Status-Initial_Draft-red) ![Category](https://img.shields.io/badge/Category-Specification-blue) ![Version](https://img.shields.io/badge/Version-0.1-lightgrey) ![License](https://img.shields.io/badge/License-Gestell-orange) 
 
 </div>
 
@@ -20,8 +20,145 @@ _Developed by Gestell Company - Professional Embedded Solutions_
 
 ## 📋 Table of Contents
 
-## 📖 Introduction
+1. [Overview](#overview)
+2. [System Architecture](#system-architecture)
+3. [Prerequisites & Setup](#prerequisites--setup)
+4. [Directory Structure Guidelines](#directory-structure-guidelines)
+5. [Deployment & Compilation](#deployment--compilation)
+6. [Understanding Build Artifacts](#understanding-build-artifacts)
+7. [Workplace & Enterprise Integration](#workplace--enterprise-integration)
+   - [Handling Corporate Proxies](#handling-corporate-proxies)
+   - [Permission & Execution Policies (Windows/Linux)](#permission--execution-policies-windowslinux)
+   - [CI/CD Pipeline Integration](#cicd-pipeline-integration)
+   - [Customizing the Base Image for Internal Tools](#customizing-the-base-image-for-internal-tools)
+8. [Troubleshooting Common Work-Related Problems](#troubleshooting-common-work-related-problems)
+   - [Port Conflicts on Shared Machines](#port-conflicts-on-shared-machines)
+   - [VPN and Network Interface Issues](#vpn-and-network-interface-issues)
+   - [Antivirus/EDR Blocking Scripts](#antivirusedr-blocking-scripts)
+   - [Docker Desktop Resource Limits](#docker-desktop-resource-limits)
+9. [Support & Maintainers](#support--maintainers)
 
+
+
+
+
+
+## 1. Overview
+A robust, isolated Docker compilation engine designed to automatically build, test, and
+package standard C and embedded AVR microcontrollers (like the ATmega328p) via a
+simple REST API. This system is designed to keep host machines clean of heavy
+toolchains while providing reliable, standardized builds across teams.
+
+## 2. System Architecture
+1. **Client (Deployment Script):** Packages the local code into a zip file, parses
+`build_config.json`, and sends both to the server via an HTTP POST request.
+2. **Nginx Proxy (Port 80):** Receives the request, safely handles large file uploads, and
+passes it to the internal Flask application.
+3. **Flask App (`app.py`):** Unzips the code, routes files to the appropriate compilers
+(`avr-gcc` or `gcc`), and runs the unit tests in an isolated sandbox.
+4. **Results:** Packages the compiled binaries (`.hex`, `.elf`, `.out`) and `buildLog.txt` into a
+`results.zip` and returns it instantly to the client.
+
+## 3. Prerequisites & Setup
+* **Docker Engine:** Docker Desktop (Windows/macOS) or Docker Engine (Linux).
+* **Terminal Environment:** Windows git bash, or a standard Linux/macOS
+Bash terminal.
+
+**To start the factory server:**
+```bash
+cd ProjectDeployment/ContainerApp
+docker build -t avr-factory .
+docker run -d -p 8050:80 --name running-avr-factory avr-factory
+```
+
+## 4. Directory Structure Guidelines & Constraints
+For the build engine to correctly categorize and compile your files, your local firmware
+projects must follow this folder structure:
+```text
+Firmware/
+├── src/ <-- Main source code (e.g., main.c, drivers)
+├── test/ <-- Unit tests (prefixed with test_)
+│ └── unity/ <-- Unity framework files
+└── CompilingYourProject.sh <-- Your deployment script
+```
+
+## 5. Deployment & Compilation
+Open your terminal inside your project folder and run your script:
+
+**Windows:** `./CompilingYourProject.sh`
+
+**Linux/macOS:** `./CompilingYourProject.sh`
+
+The script will package the code and send it to the container. If no configuration exists, it
+will prompt you for the target type, MCU, CPU frequency, and compiler flags.
+
+## 6. Understanding Build Artifacts
+After deployment, extract the downloaded `results.zip` file:
+* **`buildLog.txt`:** The complete compiler output. Check this first for syntax errors.
+* **`main.hex`:** (AVR Only) The compiled firmware ready for flashing via `avrdude`.
+* **`main.elf` / `main.map`:** Debugging and memory layout files.
+* **`test_*.out`:** Standalone unit test executables. Run these locally to verify logic.
+
+---
+
+## 7. Workplace & Enterprise Integration
+
+### Handling Corporate Proxies
+If your workplace enforces strict network proxies, Docker may fail to download base images
+or apt packages. You will need to inject your corporate proxy settings into the `Dockerfile`
+before building:
+```dockerfile
+
+ENV http_proxy="http://proxy.corporate.internal:8080"
+ENV https_proxy="http://proxy.corporate.internal:8080"
+```
+
+### CI/CD Pipeline Integration
+This build system is designed to run headlessly. To integrate with Jenkins, GitLab CI, or
+GitHub Actions, commit a pre-configured `build_config.json` to your repository. The
+deployment scripts will automatically detect this file and skip all interactive prompts,
+allowing automated nightlies or pull-request validation.
+
+### Customizing the Base Image for Internal Tools
+If your engineering team requires specific static analysis tools (e.g., PC-lint, Cppcheck, or
+proprietary MISRA checkers), modify the `Dockerfile` inside `ContainerApp`. Note that
+adding heavy tools may require increasing the Nginx timeout settings in `nginx.conf` to
+prevent dropped connections during long analysis runs. Any changes to the app.py you must review it to make possible working on your case.
+The `app.py` is implemented using python flask and done for Localhost usage not on a Server execution.  
+
+---
+
+## 8. Troubleshooting Common Work-Related Problems
+
+### Port Conflicts on Shared Machines
+If another corporate service (like an internal web portal or telemetry agent) is already bound
+to port `8050`, the container will fail to start.
+**Fix:** Map the container to a different host port (e.g., `8080`):
+`docker run -d -p 8080:80 --name running-avr-factory avr-factory`
+
+*Remember to update the `$Url` variable in your deployment scripts to match the new port.*
+
+### VPN and Network Interface Issues
+Enterprise VPNs (like Cisco AnyConnect, Zscaler, or GlobalProtect) can aggressively block
+Docker's internal networking bridges. If the deploy script returns `Error 000` while the
+container is running:
+1. Open Docker Desktop Settings.
+2. Ensure "Use VPNKit" or equivalent network bridging options are enabled.
+3. Alternatively, change the target IP in the deploy script from `127.0.0.1` to `localhost` or
+your machine's physical IPv4 address.
+
+### Antivirus/EDR Blocking Scripts
+Enterprise Endpoint Detection and Response (EDR) tools (like CrowdStrike or
+SentinelOne) often `.sh` scripts that zip files and make HTTP POST requests
+as suspicious behavior.
+**Fix:** Request a folder-level exclusion from your IT department for your firmware
+development directory, or compile the scripts into binaries using tools like `shc` or PS2EXE.
+
+### Docker Desktop Resource Limits
+If builds freeze indefinitely, especially during the linking phase of large applications, Docker
+may be starved of RAM.
+**Fix:** Navigate to Docker Desktop Settings > Resources and allocate at least 4GB of
+RAM and 2 CPU cores to the Docker engine.
 
 
 ---
@@ -30,8 +167,8 @@ _Developed by Gestell Company - Professional Embedded Solutions_
 
 **Documention Information**:
 
-- **Documention Name**: _Change to yor Documnetion Name_
-- **Documention Reference**: _Change to yor Documnetion Name_
+- **Documention Name**: Gestell-C/AVR_Container
+- **Documention Reference**: Gestell-C/AVR_Container
 - **Development Company**: Gestell - Professional Embedded Solutions
 
 **Technical Support**: _change the Your Email_
@@ -42,23 +179,23 @@ _Developed by Gestell Company - Professional Embedded Solutions_
 
 ## 📄 Document Control
 
-| Attribute            | Value                                     |
-| -------------------- | ----------------------------------------- |
-| **Document Type**    | Customer Requirements Specification (CRS) |
-| **Document ID**      | CRS-SAQS-001-R01                          |
-| **Document Status**  | Draft                                     |
-| **Document Version** | 0.1                                       |
-| **Created Date**     | 2026-02-23                                |
-| **Last Updated**     | 2026-02-23                                |
-| **Prepared By**      | Gestell Engineering Team                  |
-| **Reviewed By**      | —                                         |
-| **Approved By**      | —                                         |
+| Attribute            | Value                                      |
+| -------------------- | -----------------------------------------  |
+| **Document Type**    |                                            |
+| **Document ID**      |                                            |
+| **Document Status**  | Initial draft                              |
+| **Document Version** | 0.1                                        |
+| **Created Date**     | 2026-05-2                                  |
+| **Last Updated**     | 2026-05-2                                  |
+| **Prepared By**      | Mohammed Diaa (Intern Engineer)            |
+| **Reviewed By**      | —                                          |
+| **Approved By**      | —                                          |
 
 ### Revision History
 
 | Version | Date       | Author              | Description of Change                                      |
 | ------- | ---------- | ------------------- | ---------------------------------------------------------- |
-| 0.1     | 2026-02-23 | Gestell Engineering | Initial draft — all sections filled based on project brief |
+| 0.1     | 2026-05-2 || Initial draft — all sections filled based on project brief |
 
 ---
 
